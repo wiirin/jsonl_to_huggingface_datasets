@@ -25,7 +25,7 @@ class jsonl_to_hfdatasets:
 
     def convert_to_hf_dataset(self):
         tokens = []
-        ner_labels = []
+        ner_tags = []
         ids = []
 
         for file in self.data:
@@ -61,14 +61,14 @@ class jsonl_to_hfdatasets:
                 elif i > end_postition:
                     word += char
 
-            ner_tags = []
+            ner_tag = []
             for ner in ner_label:
-                ner_tags.append(self.labels_to_ids[ner])
+                ner_tag.append(self.labels_to_ids[ner])
 
             tokens.append(token)
-            ner_labels.append(ner_label)
+            ner_tags.append(ner_tag)
 
-        data = {"id": ids, "tokens": tokens, "ner_tags": ner_labels}
+        data = {"id": ids, "tokens": tokens, "ner_tags": ner_tags}
         ds = Dataset.from_dict(data)
         ds.features["ner_tags"] = Sequence(ClassLabel(names=self.labels_to_ids.keys()))
         return ds
@@ -80,3 +80,4 @@ if __name__ == "__main__":
     jsonl_data = [json.loads(d) for d in data]
     convert = jsonl_to_hfdatasets(jsonl_data)
     result = convert.convert_to_hf_dataset()
+    print(result[0]['ner_tags'])
