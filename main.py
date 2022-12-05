@@ -14,13 +14,14 @@ class jsonl_to_hfdatasets:
                 label_unique.add(label[2])
         label_unique = list(label_unique)
         iob_labels = []
+        iob_labels.append("0")
         for l in label_unique:
             iob_labels.append("B-" + l)
             iob_labels.append("I-" + l)
-        iob_labels.append("0")
+        
 
-        labels_to_ids = {k: v for v, k in enumerate(sorted(iob_labels))}
-        ids_to_labels = {v: k for v, k in enumerate(sorted(iob_labels))}
+        labels_to_ids = {k: v for v, k in enumerate(iob_labels)}
+        ids_to_labels = {v: k for v, k in enumerate(iob_labels)}
         return labels_to_ids, ids_to_labels
 
     def convert_to_hf_dataset(self):
