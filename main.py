@@ -2,7 +2,7 @@ import json
 from datasets import Dataset, ClassLabel, Sequence
 
 
-class jsonl_to_hfdatasets:
+class JsonlToHfdatasets:
     def __init__(self, jsonl_data):
         self.data = jsonl_data
         self.labels_to_ids, self.ids_to_labels = self.__get_unique_labels()
